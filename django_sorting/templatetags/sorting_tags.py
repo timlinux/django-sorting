@@ -56,6 +56,8 @@ class SortAnchorNode(template.Node):
         if 'dir' in getvars:
             sortdir = getvars['dir']
             del getvars['dir']
+            if sortdir not in sort_directions:
+                sortdir = ''
         else:
             sortdir = ''
         if sortby == self.field:
