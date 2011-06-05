@@ -98,6 +98,7 @@ class SortedDataNode(template.Node):
         order_by = context['request'].field
         if len(order_by) > 1:
             try:
+                value.order_by(order_by).exists()
                 context[key] = value.order_by(order_by)
             except:
                 if INVALID_FIELD_RAISES_404:
