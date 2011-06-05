@@ -97,7 +97,7 @@ class SortedDataNode(template.Node):
         if len(order_by) > 1:
             try:
                 context[key] = value.order_by(order_by)
-            except template.TemplateSyntaxError:
+            except:
                 if INVALID_FIELD_RAISES_404:
                     raise Http404('Invalid field sorting. If DEBUG were set to ' +
                     'False, an HTTP 404 page would have been shown instead.')
