@@ -26,7 +26,11 @@ def anchor(parser, token):
         title = bits[2]
     except IndexError:
         title = bits[1].capitalize()
-    return SortAnchorNode(bits[1].strip(), title.strip())
+    try:
+        css_class = bits[3]
+    except IndexError:
+        css_class = "sort-header"
+    return SortAnchorNode(bits[1].strip(), title.strip(), css_class.strip())
     
 
 class SortAnchorNode(template.Node):
@@ -41,9 +45,10 @@ class SortAnchorNode(template.Node):
         <a href="/the/current/path/?sort=name" title="Name">Name</a>
 
     """
-    def __init__(self, field, title):
+    def __init__(self, field, title, css_class):
         self.field = field
         self.title = title
+        self.css_class = css_class
 
     def render(self, context):
         request = context['request']
@@ -78,7 +83,7 @@ class SortAnchorNode(template.Node):
         valid_fields.append(self.field)
         setattr(request, 'valid_fields', valid_fields)
         url = '%s?sort=%s%s' % (request.path, self.field, urlappend)
-        return '<a href="%s" title="%s">%s</a>' % (url, self.title, title)
+        return '<a href="%s" title="%s" class="%s">%s</a>' % (url, self.title, self.css_class, title)
 
 
 def autosort(parser, token):
